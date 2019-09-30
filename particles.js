@@ -1,25 +1,16 @@
+var w = document.getElementById("myCanvas").width
+var h = document.getElementById("myCanvas").height
 
-var NUM_PARTICLES = ( ( ROWS = 100 ) * ( COLS = 300 ) ),
+var NUM_PARTICLES = ( ( COLS = (h / 4) ) * ( ROWS = (w / 4) ) ),
     THICKNESS = Math.pow( 80, 2 ),
-    SPACING = 3,
-    MARGIN = 100,
+    SPACING = Math.round(h / 100),
+    MARGIN = Math.round(w / 5),
     COLOR = 220,
     DRAG = 0.95,
     EASE = 0.25,
-
-    /*
-
-    used for sine approximation, but Math.sin in Chrome is still fast enough :)http://jsperf.com/math-sin-vs-sine-approximation
-
-    B = 4 / Math.PI,
-    C = -4 / Math.pow( Math.PI, 2 ),
-    P = 0.225,
-
-    */
-
     container,
     particle,
-    canvas,
+    particleCanvas,
     mouse,
     stats,
     list,
@@ -31,7 +22,6 @@ var NUM_PARTICLES = ( ( ROWS = 100 ) * ( COLS = 300 ) ),
     d, t, f,
     a, b,
     i, n,
-    w, h,
     p, s,
     r, c
     ;
@@ -44,22 +34,30 @@ particle = {
 };
 
 function init() {
+  // container = document.getElementById( 'gameContainer' );
+  // particleCanvas = document.createElement( 'canvas' );
+  particleCanvas = document.getElementById('particleCanvas');
+  particleCanvas.height = h;
+  particleCanvas.width = w;
+  ctx = particleCanvas.getContext( '2d' );
 
-  container = document.getElementById( 'container' );
-  canvas = document.createElement( 'canvas' );
+  // particleCanvas.style.backgroundColor = "transparent";
+  // particleCanvas.style.opacity = ".5";
 
-  ctx = canvas.getContext( '2d' );
   man = false;
   tog = true;
 
   list = [];
 
-  w = canvas.width = COLS * SPACING + MARGIN * 2;
-  h = canvas.height = ROWS * SPACING + MARGIN * 2;
+  // w = particleCanvas.width = COLS * SPACING + MARGIN * 2;
+  // h = particleCanvas.height = ROWS * SPACING + MARGIN * 2;
+  // w = canvasWidth
+  // h = canvasHeight
 
-  container.style.marginLeft = Math.round( w * -0.5 ) + 'px';
-  container.style.marginTop = Math.round( h * -0.5 ) + 'px';
+  // container.style.marginLeft = Math.round( w * -0.5 ) + 'px';
+  // container.style.marginTop = Math.round( h * -0.5 ) + 'px';
 
+  //create and place every damn particle
   for ( i = 0; i < NUM_PARTICLES; i++ ) {
 
     p = Object.create( particle );
@@ -68,21 +66,22 @@ function init() {
 
     list[i] = p;
   }
-
-  container.addEventListener( 'mousemove', function(e) {
-
-    bounds = container.getBoundingClientRect();
-    mx = e.clientX - bounds.left;
-    my = e.clientY - bounds.top;
-    man = true;
-
-  });
+  //
+  // container.addEventListener( 'mousemove', function(e) {
+  //
+  //   bounds = canvas.getBoundingClientRect();
+  //   mx = e.clientX - bounds.left;
+  //   my = e.clientY - bounds.top;
+  //   man = true;
+  //
+  // });
 
   if ( typeof Stats === 'function' ) {
     document.body.appendChild( ( stats = new Stats() ).domElement );
   }
 
-  container.appendChild( canvas );
+  // container.appendChild( particleCanvas );
+  // container.appendChild( particleCanvas );
 }
 
 function step() {
@@ -130,9 +129,15 @@ function step() {
   }
 
   if ( stats ) stats.end();
+}
 
-  requestAnimationFrame( step );
+function allRender () {
+  requestAnimationFrame(allRender);
+  draw();
+  step();
+  // requestAnimationFrame(draw);
 }
 
 init();
-step();
+// step();
+allRender();
