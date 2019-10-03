@@ -9,9 +9,9 @@ var NUM_PARTICLES = ( ( ROWS = breakout.height / 8 ) * ( COLS = breakout.width /
     COLOR = 220,
     DRAG = 0.95,
     EASE = 0.25,
-    
+
     /*
-    
+
     used for sine approximation, but Math.sin in Chrome is still fast enough :)http://jsperf.com/math-sin-vs-sine-approximation
 
     B = 4 / Math.PI,
@@ -54,23 +54,23 @@ function init() {
 
   man = true;
   tog = true;
-  
+
   list = [];
-  
+
   // w = canvas.width = COLS * SPACING + MARGIN * 2;
   // h = canvas.height = ROWS * SPACING + MARGIN * 2;
   w = canvas.width = breakout.width;
   h = canvas.height = breakout.height;
-  
+
   // container.style.marginLeft = Math.round( w * -0.5 ) + 'px';
   // container.style.marginTop = Math.round( h * -0.5 ) + 'px';
-  
+
   for ( i = 0; i < NUM_PARTICLES; i++ ) {
-    
+
     p = Object.create( particle );
     p.x = p.ox = MARGIN + SPACING * ( i % COLS );
     p.y = p.oy = MARGIN + SPACING * Math.floor( i / COLS );
-    
+
     list[i] = p;
   }
 
@@ -80,9 +80,9 @@ function init() {
   //   mx = e.clientX - bounds.left;
   //   my = e.clientY - bounds.top;
   //   man = true;
-    
+
   // });
-  
+
 }
 
 function step(ballPos) {
@@ -97,16 +97,16 @@ function step(ballPos) {
     // }
 
     // ballPos = draw();
-    console.log(ballPos); 
-    
+    console.log(ballPos);
+
     bounds = container.getBoundingClientRect();
     mx = ballPos[0] - bounds.left;
     my = ballPos[1] - bounds.top;
-      
+
     for ( i = 0; i < NUM_PARTICLES; i++ ) {
-      
+
       p = list[i];
-      
+
       d = ( dx = mx - p.x ) * dx + ( dy = my - p.y ) * dy;
       f = -THICKNESS / d;
 

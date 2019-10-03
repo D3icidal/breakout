@@ -6,20 +6,20 @@ x = canvas.width/2,
 y = canvas.height-30,
 dx = 2,
 dy = -2,
-paddleHeight = 10,
+paddleHeight = 15,
 paddleWidth = 150,
 paddleX = (canvas.width-paddleWidth)/2,
 rightPressed = false,
 leftPressed = false,
 brickRowCount = 5,
 brickColumnCount = 3,
-brickWidth = 50,
-brickHeight = 40,
-brickPadding = 10,
+brickWidth = 40,
+brickHeight = 15,
+brickPadding = 15,
 brickOffsetTop = 30,
 brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2)
 score = 0,
-lives = 3;
+lives = 5;
 
 var bricks = [];
 //
@@ -86,7 +86,7 @@ var brick = {
 };
 
 function createBricks() {
-  
+
   for(var c=0; c<brickColumnCount; c++) {
     bricks[c] = [];
     for(var r=0; r<brickRowCount; r++) {
@@ -130,14 +130,14 @@ function drawBricks() {
   }
   ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
-  
+
   // for(var c=0; c<brickColumnCount; c++) {
   //   for(var r=0; r<brickRowCount; r++) {
-    
+
   //     b.x = (r*(brickWidth+brickPadding))+brickOffsetLeft;
   //     b.y = (c*(brickHeight+brickPadding))+brickOffsetTop;
   //   }
-    
+
   // }
 
 
@@ -205,7 +205,7 @@ function drawBall() {
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
-  ctx.closePath();  
+  ctx.closePath();
 }
 function drawPaddle() {
   ctx.beginPath();
