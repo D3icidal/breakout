@@ -1,5 +1,5 @@
-var canvas = document.getElementById("myCanvas");
 var container = document.getElementById( 'gameContainer' );
+var canvas = document.getElementById("breakoutCanvas");
 // var container = document.getElementById( 'gameContainer' );
 // var canvas = document.createElement( 'breakoutCanvas' );
 var ctx = canvas.getContext("2d");
@@ -132,6 +132,7 @@ function drawLives() {
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  step();
   drawBricks();
   drawBall();
   drawPaddle();
@@ -175,6 +176,6 @@ function draw() {
   x += dx;
   y += dy;
   // requestAnimationFrame(draw);
-}
+  // requestAnimationFrame( renderAll );
 
-// draw();
+}

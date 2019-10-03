@@ -1,16 +1,25 @@
-var w = document.getElementById("myCanvas").width
-var h = document.getElementById("myCanvas").height
 
-var NUM_PARTICLES = ( ( COLS = (h / 4) ) * ( ROWS = (w / 4) ) ),
+var NUM_PARTICLES = ( ( ROWS = 10 ) * ( COLS = 30 ) ),
     THICKNESS = Math.pow( 80, 2 ),
-    SPACING = Math.round(h / 100),
-    MARGIN = Math.round(w / 5),
+    SPACING = 30,
+    MARGIN = 0,
     COLOR = 220,
     DRAG = 0.95,
     EASE = 0.25,
+
+    /*
+
+    used for sine approximation, but Math.sin in Chrome is still fast enough :)http://jsperf.com/math-sin-vs-sine-approximation
+
+    B = 4 / Math.PI,
+    C = -4 / Math.pow( Math.PI, 2 ),
+    P = 0.225,
+
+    */
+
     container,
     particle,
-    particleCanvas,
+    canvas,
     mouse,
     stats,
     list,
@@ -22,6 +31,7 @@ var NUM_PARTICLES = ( ( COLS = (h / 4) ) * ( ROWS = (w / 4) ) ),
     d, t, f,
     a, b,
     i, n,
+    w, h,
     p, s,
     r, c
     ;
@@ -34,30 +44,25 @@ particle = {
 };
 
 function init() {
-  // container = document.getElementById( 'gameContainer' );
-  // particleCanvas = document.createElement( 'canvas' );
-  particleCanvas = document.getElementById('particleCanvas');
-  particleCanvas.height = h;
-  particleCanvas.width = w;
-  ctx = particleCanvas.getContext( '2d' );
 
-  // particleCanvas.style.backgroundColor = "transparent";
-  // particleCanvas.style.opacity = ".5";
+  container = document.getElementById( 'gameContainer' );
+  canvas = document.getElementById( 'particleCanvas' );
+  // canvas.width = container.width
+  // canvas.height = container.height
+  // canvas = document.createElement( 'canvas' );
 
-  man = false;
+  ctx = canvas.getContext( "2d" );
+  man = true;
   tog = true;
 
   list = [];
 
-  // w = particleCanvas.width = COLS * SPACING + MARGIN * 2;
-  // h = particleCanvas.height = ROWS * SPACING + MARGIN * 2;
-  // w = canvasWidth
-  // h = canvasHeight
+  w = COLS * SPACING + MARGIN * 2;
+  h = ROWS * SPACING + MARGIN * 2;
 
   // container.style.marginLeft = Math.round( w * -0.5 ) + 'px';
   // container.style.marginTop = Math.round( h * -0.5 ) + 'px';
 
-  //create and place every damn particle
   for ( i = 0; i < NUM_PARTICLES; i++ ) {
 
     p = Object.create( particle );
@@ -66,22 +71,21 @@ function init() {
 
     list[i] = p;
   }
-  //
-  // container.addEventListener( 'mousemove', function(e) {
-  //
-  //   bounds = canvas.getBoundingClientRect();
-  //   mx = e.clientX - bounds.left;
-  //   my = e.clientY - bounds.top;
-  //   man = true;
-  //
-  // });
+
+  container.addEventListener( 'mousemove', function(e) {
+
+    bounds = container.getBoundingClientRect();
+    mx = e.clientX - bounds.left;
+    my = e.clientY - bounds.top;
+    man = true;
+
+  });
 
   if ( typeof Stats === 'function' ) {
     document.body.appendChild( ( stats = new Stats() ).domElement );
   }
 
-  // container.appendChild( particleCanvas );
-  // container.appendChild( particleCanvas );
+  container.appendChild( canvas );
 }
 
 function step() {
@@ -90,12 +94,12 @@ function step() {
 
   if ( tog = !tog ) {
 
-    if ( !man ) {
+//     if ( !man ) {
 
-      t = +new Date() * 0.001;
-      mx = w * 0.5 + ( Math.cos( t * 2.1 ) * Math.cos( t * 0.9 ) * w * 0.45 );
-      my = h * 0.5 + ( Math.sin( t * 3.2 ) * Math.tan( Math.sin( t * 0.8 ) ) * h * 0.45 );
-    }
+//       t = +new Date() * 0.001;
+//       mx = w * 0.5 + ( Math.cos( t * 2.1 ) * Math.cos( t * 0.9 ) * w * 0.45 );
+//       my = h * 0.5 + ( Math.sin( t * 3.2 ) * Math.tan( Math.sin( t * 0.8 ) ) * h * 0.45 );
+//     }
 
     for ( i = 0; i < NUM_PARTICLES; i++ ) {
 
@@ -129,15 +133,15 @@ function step() {
   }
 
   if ( stats ) stats.end();
+
+  // requestAnimationFrame( step );
 }
 
-function allRender () {
-  requestAnimationFrame(allRender);
+function renderAll() {
+  requestAnimationFrame( renderAll );
   draw();
-  step();
-  // requestAnimationFrame(draw);
+  // step();
 }
-
 init();
 // step();
-allRender();
+renderAll()
