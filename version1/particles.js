@@ -1,17 +1,14 @@
-breakout = document.getElementById("breakoutCanvas")
-console.log("breakout WxH:" + breakout.width + " " + breakout.height)
 
-
-var NUM_PARTICLES = ( ( ROWS = breakout.height / 8 ) * ( COLS = breakout.width / 8 ) ),
+var NUM_PARTICLES = ( ( ROWS = 10 ) * ( COLS = 30 ) ),
     THICKNESS = Math.pow( 80, 2 ),
-    SPACING = 5,
-    MARGIN = 25,
+    SPACING = 30,
+    MARGIN = 0,
     COLOR = 220,
     DRAG = 0.95,
     EASE = 0.25,
-    
+
     /*
-    
+
     used for sine approximation, but Math.sin in Chrome is still fast enough :)http://jsperf.com/math-sin-vs-sine-approximation
 
     B = 4 / Math.PI,
@@ -19,7 +16,7 @@ var NUM_PARTICLES = ( ( ROWS = breakout.height / 8 ) * ( COLS = breakout.width /
     P = 0.225,
 
     */
-    ballPos,
+
     container,
     particle,
     canvas,
@@ -50,63 +47,64 @@ function init() {
 
   container = document.getElementById( 'gameContainer' );
   canvas = document.getElementById( 'particleCanvas' );
-  ctx = canvas.getContext( '2d' );
+  // canvas.width = container.width
+  // canvas.height = container.height
+  // canvas = document.createElement( 'canvas' );
 
+  ctx = canvas.getContext( "2d" );
   man = true;
   tog = true;
-  
+
   list = [];
-  
-  // w = canvas.width = COLS * SPACING + MARGIN * 2;
-  // h = canvas.height = ROWS * SPACING + MARGIN * 2;
-  w = canvas.width = breakout.width;
-  h = canvas.height = breakout.height;
-  
+
+  w = COLS * SPACING + MARGIN * 2;
+  h = ROWS * SPACING + MARGIN * 2;
+
   // container.style.marginLeft = Math.round( w * -0.5 ) + 'px';
   // container.style.marginTop = Math.round( h * -0.5 ) + 'px';
-  
+
   for ( i = 0; i < NUM_PARTICLES; i++ ) {
-    
+
     p = Object.create( particle );
     p.x = p.ox = MARGIN + SPACING * ( i % COLS );
     p.y = p.oy = MARGIN + SPACING * Math.floor( i / COLS );
-    
+
     list[i] = p;
   }
 
-  // container.addEventListener( 'mousemove', function(e) {
+  container.addEventListener( 'mousemove', function(e) {
 
-  //   bounds = container.getBoundingClientRect();
-  //   mx = e.clientX - bounds.left;
-  //   my = e.clientY - bounds.top;
-  //   man = true;
-    
-  // });
-  
+    bounds = container.getBoundingClientRect();
+    mx = e.clientX - bounds.left;
+    my = e.clientY - bounds.top;
+    man = true;
+
+  });
+
+  if ( typeof Stats === 'function' ) {
+    document.body.appendChild( ( stats = new Stats() ).domElement );
+  }
+
+  container.appendChild( canvas );
 }
 
-function step(ballPos) {
+function step() {
 
-  // if ( tog = !tog ) {
+  if ( stats ) stats.begin();
 
-    // if ( !man ) {
+  if ( tog = !tog ) {
 
-    //   t = +new Date() * 0.001;
-    //   mx = w * 0.5 + ( Math.cos( t * 2.1 ) * Math.cos( t * 0.9 ) * w * 0.45 );
-    //   my = h * 0.5 + ( Math.sin( t * 3.2 ) * Math.tan( Math.sin( t * 0.8 ) ) * h * 0.45 );
-    // }
+//     if ( !man ) {
 
-    // ballPos = draw();
-    console.log(ballPos); 
-    
-    bounds = container.getBoundingClientRect();
-    mx = ballPos[0] - bounds.left;
-    my = ballPos[1] - bounds.top;
-      
+//       t = +new Date() * 0.001;
+//       mx = w * 0.5 + ( Math.cos( t * 2.1 ) * Math.cos( t * 0.9 ) * w * 0.45 );
+//       my = h * 0.5 + ( Math.sin( t * 3.2 ) * Math.tan( Math.sin( t * 0.8 ) ) * h * 0.45 );
+//     }
+
     for ( i = 0; i < NUM_PARTICLES; i++ ) {
-      
+
       p = list[i];
-      
+
       d = ( dx = mx - p.x ) * dx + ( dy = my - p.y ) * dy;
       f = -THICKNESS / d;
 
@@ -121,6 +119,8 @@ function step(ballPos) {
 
     }
 
+  } else {
+
     b = ( a = ctx.createImageData( w, h ) ).data;
 
     for ( i = 0; i < NUM_PARTICLES; i++ ) {
@@ -130,10 +130,18 @@ function step(ballPos) {
     }
 
     ctx.putImageData( a, 0, 0 );
-  // }
+  }
+
+  if ( stats ) stats.end();
 
   // requestAnimationFrame( step );
 }
 
+function renderAll() {
+  requestAnimationFrame( renderAll );
+  draw();
+  // step();
+}
 init();
 // step();
+renderAll()

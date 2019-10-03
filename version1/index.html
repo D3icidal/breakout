@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ThomasNg - Breakout</title>
+  <style>
+  	/* * { padding: 0; margin: 0; }
+  	canvas { display: block; margin: 0 auto; } */
+  </style>
+  <link rel="stylesheet" href="./main.css">
+  <!-- <script src="https://gist.github.com/mrdoob/838785/raw/a19a753b441d6ad41707c58f06dbe17f3470423c/RequestAnimationFrame.js"></script> -->
+
+</head>
+<body>
+  <!-- <script>
+  /**
+   * Provides requestAnimationFrame in a cross browser way.
+   * @author paulirish / http://paulirish.com/
+   */
+    if ( !window.requestAnimationFrame ) {
+
+  	window.requestAnimationFrame = ( function() {
+
+  		return window.webkitRequestAnimationFrame ||
+  		window.mozRequestAnimationFrame ||
+  		window.oRequestAnimationFrame ||
+  		window.msRequestAnimationFrame ||
+  		function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+
+  			window.setTimeout( callback, 1000 / 60 );
+  		};
+  	} )();
+  }
+  </script> -->
+
+  <!-- <div id='container'>  </div> -->
+  <div id="gameContainer" width="480" height="320">
+    <canvas id="breakoutCanvas" width="480" height="320"></canvas>
+    <canvas id="particleCanvas" width="480" height="320"></canvas>
+  </div>
+
+  <script type="text/javascript" src="gameBreakout.js"></script>
+  <script type="text/javascript" src="particles.js"></script>
+
+</body>
+</html>

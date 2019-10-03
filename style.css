@@ -1,0 +1,60 @@
+canvas { 
+  position: absolute;
+  /* background: black; */
+}
+
+#gameContainer {
+  padding: 5px;
+  outline-width: 2px;
+  position: relative;
+  outline: green;
+  outline-style: double; 
+}
+
+#breakoutCanvas{
+  z-index: 2;
+  margin: 5px;
+  /* position: absolute; */
+  /* outline-color: blue; */
+  outline-width: 1px;
+  outline: blue;
+  outline-style: dotted; 
+  /* opacity: 0.5; */
+}
+
+#particleCanvas{
+  /* z-index: 0; */
+  z-index: 0;
+  margin: 3px;
+  /* position: relative; */
+  outline-width: 2px;
+  outline: gray;
+  outline-style: dashed; 
+}
+
+#rainbowCanvas{
+  /* z-index: 0; */
+  z-index: 1;
+  margin: 4px;
+  /* position: relative; */
+  outline-width: 2px;
+  outline: orange;
+  outline-style: dashed; 
+}
+
+.ball {
+  pointer-events: none;
+  position: absolute; 
+  width: 6px;
+  height: 6px;
+  border-radius: 50%; 
+  background: gray;
+  animation: implode 2s ease-in-out;
+  animation-fill-mode: both;
+  opacity: .2;
+}
+
+@keyframes implode {
+  100% {transform: scale(0)}
+}
+
