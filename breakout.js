@@ -6,15 +6,15 @@ x = canvas.width/2,
 y = canvas.height-30,
 dx = 2,
 dy = -2,
-paddleHeight = 15,
-paddleWidth = 150,
+paddleHeight = 10,
+paddleWidth = 100,
 paddleX = (canvas.width-paddleWidth)/2,
 rightPressed = false,
 leftPressed = false,
 brickRowCount = 5,
 brickColumnCount = 3,
-brickWidth = 40,
-brickHeight = 15,
+brickWidth = 35,
+brickHeight = 10,
 brickPadding = 15,
 brickOffsetTop = 30,
 brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2)
@@ -118,13 +118,14 @@ function drawBricks() {
     for(var r=0; r<brickRowCount; r++) {
       var b = bricks[c][r];
       if(b.status == 1) {
-        offscreenCtx.beginPath();
-        offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
-        offscreenCtx.fillStyle = "#0095DD";
-        offscreenCtx.fill();
+        offscreenCtx.drawImage(renderNeonRect(0,0,brickWidth,brickHeight,13,213,252),b.x,b.y)
+        // offscreenCtx.beginPath();
+        // offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
+        // offscreenCtx.fillStyle = "#0095DD";
+        // offscreenCtx.fill();
         // offscreenCtx.closePath();
       } else {
-        offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
+        // offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
       }
     }
   }
@@ -227,11 +228,13 @@ function drawBall() {
 
 
 function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
+  // ctx.beginPath();
+  // ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+  // ctx.fillStyle = "#0095DD";
+  // ctx.fill();
   // ctx.closePath();
+  offscreenCtx.drawImage(renderNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX,canvas.height-paddleHeight - 20)
+  ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
 function drawScore() {

@@ -1,7 +1,9 @@
 var breakoutCanvas = document.getElementById("breakoutCanvas");
 var breakoutCtx = breakoutCanvas.getContext("2d");
 
-var neonBallCanvas = document.getElementById('rainbowCanvas');
+var neonBallCanvas =
+document.createElement('CANVAS');
+// document.getElementById('rainbowCanvas');
 neonBallCanvas.width = 40;
 neonBallCanvas.height = 40;
 var ctx = neonBallCanvas.getContext('2d');
@@ -37,6 +39,7 @@ var neonBall = function(x,y,w,h,r,g,b) {
   ctx.lineWidth=1.5;
   drawBall(x,y,w,h,1.5);
 }
+
 
 function renderNeonBall(x,y){
   neonBall(20,20,50,50,13,213,252);
