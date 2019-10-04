@@ -22,6 +22,7 @@ score = 0,
 lives = 5;
 
 var bricks = [];
+
 //
 //  OFFSCREEN CANVAS
 //
@@ -77,7 +78,6 @@ function keyUpHandler(e) {
 //   }
 // }
 
-
 var brick = {
   status: 1,
   x: 0,
@@ -122,7 +122,7 @@ function drawBricks() {
         offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
         offscreenCtx.fillStyle = "#0095DD";
         offscreenCtx.fill();
-        offscreenCtx.closePath();
+        // offscreenCtx.closePath();
       } else {
         offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
       }
@@ -205,14 +205,33 @@ function drawBall() {
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
-  ctx.closePath();
+  // ctx.closePath();
 }
+
+// function drawNeonBall() {
+//   var neonBallCanvas = document.createElement('canvas');
+//   neonBallCanvas.width = ballRadius * 2;
+//   neonBallCanvas.height = ballRadius * 2;
+//
+//   // Initialize the GL context
+//   var gl = neonBallCanvas.getContext('webgl');
+//   if(!gl){
+//     console.error("Unable to initialize WebGL.");
+//   }
+//   ctx.beginPath();
+//   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+//   ctx.fillStyle = "#0095DD";
+//   ctx.fill();
+//   // ctx.closePath();
+// }
+
+
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
-  ctx.closePath();
+  // ctx.closePath();
 }
 
 function drawScore() {
@@ -234,6 +253,7 @@ function draw() {
   drawScore();
   drawLives();
   drawBall();
+  // drawNeonBall();
   collisionDetection();
 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {

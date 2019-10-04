@@ -1,4 +1,4 @@
-canvas { 
+canvas {
   position: absolute;
   /* background: black; */
 }
@@ -8,7 +8,7 @@ canvas {
   outline-width: 2px;
   position: relative;
   outline: green;
-  outline-style: double; 
+  outline-style: double;
 }
 
 #breakoutCanvas{
@@ -18,7 +18,7 @@ canvas {
   /* outline-color: blue; */
   outline-width: 1px;
   outline: blue;
-  outline-style: dotted; 
+  outline-style: dotted;
   /* opacity: 0.5; */
 }
 
@@ -29,7 +29,7 @@ canvas {
   /* position: relative; */
   outline-width: 2px;
   outline: gray;
-  outline-style: dashed; 
+  outline-style: dashed;
 }
 
 #rainbowCanvas{
@@ -39,15 +39,17 @@ canvas {
   /* position: relative; */
   outline-width: 2px;
   outline: orange;
-  outline-style: dashed; 
+  outline-style: dashed;
 }
 
-.ball {
+
+
+/* .ball {
   pointer-events: none;
-  position: absolute; 
+  position: absolute;
   width: 6px;
   height: 6px;
-  border-radius: 50%; 
+  border-radius: 50%;
   background: gray;
   animation: implode 2s ease-in-out;
   animation-fill-mode: both;
@@ -56,5 +58,4 @@ canvas {
 
 @keyframes implode {
   100% {transform: scale(0)}
-}
-
+} */

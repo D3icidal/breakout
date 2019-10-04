@@ -2,12 +2,13 @@ function renderDraws() {
   // draw();
   // requestAnimationFrame(renderDraws, step() );
   // ballPos = draw();
-  
-  
-  draw();
-  requestAnimationFrame( renderDraws );
+
+
+  ballPos = draw();
+  renderNeonBall();
+  // rainbowRender(ballPos[0], ballPos[1])
+  // requestAnimationFrame( renderDraws );
   // step();
 }
 
 renderDraws();
-
