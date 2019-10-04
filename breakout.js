@@ -4,11 +4,11 @@ ctx = canvas.getContext("2d"),
 
 ballRadius = 10,
 x = canvas.width/2,
-y = canvas.height-50,
+y = canvas.height-75,
 dx = 2,
-dy = -2,
+dy = 2,
 neonGlowBuffer = 7.5, //pixels to allow for neon glow around object
-paddleHeight = 10,
+paddleHeight = 20,
 paddleWidth = 100,
 paddleFloat = 15, //pixels to elevate paddle for costmetic effect
 paddleX = (canvas.width/2) - (paddleWidth/2),
@@ -165,6 +165,42 @@ function drawLives() {
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
+// function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
+//   var distX = Math.abs(cX - rX + (rW / 2));
+//   var distY = Math.abs(cY - rY + (rH / 2));
+//
+// }
+
+function paddleCollisionDetection(circle, rect){
+  // DISTANCE BETWEEN CENTER OF CIRCLE AND CENTER OF RECT ALONG X/Y
+  var distX = Math.abs(circle[0] - rect[0] - (rect[2] / 2));
+  var distY = Math.abs(circle[1] - rect[1] - (rect[3] / 2));
+
+  //Colliding
+  if ((distX <= (rect[2] / 2)) && (distY <= (rect[3] / 2))) {
+      console.log("!Colliding!" + "  distX:" + distX + "  distY:" + distY)
+      console.log("Circle: " + circle)
+      console.log("Rect: " + rect)
+
+      dy = -dy + 5; //Change direction
+      return true;
+  }
+
+  //Not Colliding
+  if (distX > (rect[2] / 2 + ballRadius)) {
+      return false;
+      dx = -dx;
+  }
+  if (distY > (rect[3] / 2 + ballRadius)) {
+      return false;
+      dy = -dy;
+  }
+
+  var dx = distX - rect[2] / 2;
+  var dy = distY - rect[3] / 2;
+  // console.log((dx * dx + dy * dy <= (ballRadius * ballRadius)))
+  return (dx * dx + dy * dy <= (ballRadius * ballRadius));
+}
 
 function draw() {
   offscreenCtx.clearRect(0, 0, canvas.width, canvas.height);
@@ -177,16 +213,17 @@ function draw() {
   ctx.drawImage(canvas.offscreenCanvas , 0, 0);
   // drawNeonBall();
   brickCollisionDetection();
+  paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight]);
 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
   if(y + dy < ballRadius) {
-    dy = -dy;
+    // dy = -dy;
   }
   else if(y + dy > paddleY) {
     if(x > paddleX && x < paddleX + paddleWidth) {
-      dy = -dy;
+      // dy = -dy;
     }
     else if(y + dy > canvas.height - ballRadius ) {
       lives--;

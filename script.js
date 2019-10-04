@@ -8,13 +8,14 @@ function renderDraws() {
   // renderNeonBall();
   // renderNeonRect();
   // rainbowRender(ballPos[0], ballPos[1])
-  requestAnimationFrame( renderDraws );
+  // requestAnimationFrame( renderDraws );
   // step();
+  setTimeout(renderDraws,200)
 }
 
 
 createBricks()
-
+//
 createNeonBall();
 
 renderDraws();
