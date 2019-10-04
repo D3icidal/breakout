@@ -56,4 +56,3 @@ function drawNeonBall(x,y){
   return ballFieldCanvas;
   // breakoutCtx.drawImage(ballFieldCanvas, 180, 180 )
 }
-createNeonBall();
