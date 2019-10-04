@@ -46,7 +46,7 @@ var neonRect = function(x,y,w,h,r,g,b) {
 
 function drawNeonRect(x,y,w,h,r,g,b){
   // neonRect(20,20,10,50,13,213,252);
-  neonRectCtx.clearRect(0, 0, w + 20, h + 20);
+  neonRectCtx.clearRect(0, 0, neonRectCanvas.width, neonRectCanvas.height);
   neonRectCanvas.width = w + 20;
   neonRectCanvas.height = h + 20;
   return neonRect(10,10,w,h,r,g,b);

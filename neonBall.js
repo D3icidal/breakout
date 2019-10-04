@@ -52,7 +52,7 @@ function createNeonBall(){
 
 function drawNeonBall(x,y){
   ballFieldCtx.clearRect(0, 0, ballFieldCanvas.width, ballFieldCanvas.height);
-  ballFieldCtx.drawImage(ballObjectCanvas,x - ballObjectCanvas.width/2,y - ballObjectCanvas.height/2);
+  ballFieldCtx.drawImage(ballObjectCanvas, x - (ballObjectCanvas.width/2), y - (ballObjectCanvas.height/2));
   return ballFieldCanvas;
   // breakoutCtx.drawImage(ballFieldCanvas, 180, 180 )
 }

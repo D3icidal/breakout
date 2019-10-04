@@ -8,7 +8,8 @@ dx = 2,
 dy = -2,
 paddleHeight = 10,
 paddleWidth = 100,
-paddleX = (canvas.width-paddleWidth)/2,
+paddleFloat = 15,
+paddleX = (canvas.width/2) - (paddleWidth/2),
 rightPressed = false,
 leftPressed = false,
 brickRowCount = 5,
@@ -118,7 +119,7 @@ function drawBricks() {
     for(var r=0; r<brickRowCount; r++) {
       var b = bricks[c][r];
       if(b.status == 1) {
-        offscreenCtx.drawImage(drawNeonRect(0,0,brickWidth,brickHeight,13,213,252),b.x,b.y)
+        offscreenCtx.drawImage(drawNeonRect(0,0,brickWidth,brickHeight,13,213,252),b.x-10,b.y-10)
         // offscreenCtx.beginPath();
         // offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
         // offscreenCtx.fillStyle = "#0095DD";
@@ -235,7 +236,7 @@ function drawPaddle() {
   // ctx.fillStyle = "#0095DD";
   // ctx.fill();
   // ctx.closePath();
-  offscreenCtx.drawImage(drawNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX,canvas.height-paddleHeight - 20)
+  offscreenCtx.drawImage(drawNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX-10,canvas.height-paddleHeight - 10 - paddleFloat)
   // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
