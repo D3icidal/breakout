@@ -3,7 +3,7 @@ ctx = canvas.getContext("2d"),
 
 ballRadius = 10,
 x = canvas.width/2,
-y = canvas.height-30,
+y = canvas.height-50,
 dx = 2,
 dy = -2,
 paddleHeight = 10,
@@ -14,7 +14,7 @@ leftPressed = false,
 brickRowCount = 5,
 brickColumnCount = 3,
 brickWidth = 35,
-brickHeight = 10,
+brickHeight = 10
 brickPadding = 15,
 brickOffsetTop = 30,
 brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2)
@@ -118,18 +118,18 @@ function drawBricks() {
     for(var r=0; r<brickRowCount; r++) {
       var b = bricks[c][r];
       if(b.status == 1) {
-        offscreenCtx.drawImage(renderNeonRect(0,0,brickWidth,brickHeight,13,213,252),b.x,b.y)
+        offscreenCtx.drawImage(drawNeonRect(0,0,brickWidth,brickHeight,13,213,252),b.x,b.y)
         // offscreenCtx.beginPath();
         // offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
         // offscreenCtx.fillStyle = "#0095DD";
         // offscreenCtx.fill();
         // offscreenCtx.closePath();
       } else {
-        // offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
+        offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
       }
     }
   }
-  ctx.drawImage(canvas.offscreenCanvas , 0, 0);
+  // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
   // for(var c=0; c<brickColumnCount; c++) {
@@ -202,10 +202,12 @@ function collisionDetection() {
 // draw
 
 function drawBall() {
-  ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
+  // drawNeonBall(x,y);
+  offscreenCtx.drawImage(drawNeonBall(x,y),0,0);
+  // ctx.beginPath();
+  // ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+  // ctx.fillStyle = "#0095DD";
+  // ctx.fill();
   // ctx.closePath();
 }
 
@@ -233,8 +235,8 @@ function drawPaddle() {
   // ctx.fillStyle = "#0095DD";
   // ctx.fill();
   // ctx.closePath();
-  offscreenCtx.drawImage(renderNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX,canvas.height-paddleHeight - 20)
-  ctx.drawImage(canvas.offscreenCanvas , 0, 0);
+  offscreenCtx.drawImage(drawNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX,canvas.height-paddleHeight - 20)
+  // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
 function drawScore() {
@@ -256,6 +258,7 @@ function draw() {
   drawScore();
   drawLives();
   drawBall();
+  ctx.drawImage(canvas.offscreenCanvas , 0, 0);
   // drawNeonBall();
   collisionDetection();
 

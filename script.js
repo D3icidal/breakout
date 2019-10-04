@@ -4,9 +4,9 @@ function renderDraws() {
   // ballPos = draw();
 
 
-  ballPos = draw();
-  renderNeonBall();
-  renderNeonRect();
+  draw();
+  // renderNeonBall();
+  // renderNeonRect();
   // rainbowRender(ballPos[0], ballPos[1])
   // requestAnimationFrame( renderDraws );
   // step();

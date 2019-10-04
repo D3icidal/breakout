@@ -5,7 +5,7 @@ var neonRectCanvas =
 document.createElement('CANVAS');
 // document.getElementById('rainbowCanvas');
 var neonRectCtx = neonRectCanvas.getContext('2d');
-
+neonRectCtx.globalCompositeOperation = "lighter";
 
 var drawRect = function(x, y, w, h, border){
   neonRectCtx.beginPath();
@@ -44,7 +44,7 @@ var neonRect = function(x,y,w,h,r,g,b) {
 }
 
 
-function renderNeonRect(x,y,w,h,r,g,b){
+function drawNeonRect(x,y,w,h,r,g,b){
   // neonRect(20,20,10,50,13,213,252);
   neonRectCtx.clearRect(0, 0, w + 20, h + 20);
   neonRectCanvas.width = w + 20;
@@ -52,9 +52,3 @@ function renderNeonRect(x,y,w,h,r,g,b){
   return neonRect(10,10,w,h,r,g,b);
   // breakoutCtx.drawImage(neonRectCanvas, 10, 10)
 }
-
-function loop(){
-  renderNeonRect()
-}
-
-renderNeonRect()
