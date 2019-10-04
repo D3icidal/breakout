@@ -27,7 +27,7 @@ var drawRect = function(x, y, w, h, border){
 }
 
 
-var neonRect = function(x,y,w,h,r,g,b,neonRectCtx) {
+var neonRect = function(x,y,w,h,r,g,b) {
   neonRectCtx.shadowColor = "rgb("+r+","+g+","+b+")";
   neonRectCtx.shadowBlur = 10;
   for (i = 7.5; i > 1.5; i -= 1.5){
@@ -49,7 +49,7 @@ function renderNeonRect(x,y,w,h,r,g,b){
   neonRectCtx.clearRect(0, 0, w + 20, h + 20);
   neonRectCanvas.width = w + 20;
   neonRectCanvas.height = h + 20;
-  return neonRect(10,10,w,h,r,g,b,neonRectCtx);
+  return neonRect(10,10,w,h,r,g,b);
   // breakoutCtx.drawImage(neonRectCanvas, 10, 10)
 }
 
