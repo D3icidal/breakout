@@ -47,6 +47,7 @@ var neonBall = function(x,r,g,b,neonBorder) {
   ballObjectCtx.strokeStyle= '#fff';
   ballObjectCtx.lineWidth=3;
   drawCircle(x,neonBorder);
+  
 }
 
 
