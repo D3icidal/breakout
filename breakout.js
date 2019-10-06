@@ -175,11 +175,6 @@ function drawPaddle() {
   // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
-ballObjectCtx.shadowColor = "rgb("+r+","+g+","+b+")";
-ballObjectCtx.shadowBlur = 10;
-
-ballObjectCtx.strokeStyle= "rgba("+r+","+g+","+b+",0.2)";
-ballObjectCtx.lineWidth=7.5;
 function drawScore() {
   ctx.font = "16px Arial";
   // ctx.lineWidth=3.5;
