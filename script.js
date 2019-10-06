@@ -11,7 +11,7 @@ function renderDraws() {
   if( downPressed ){
     setTimeout(renderDraws,200)
   }else {
-    setTimeout(renderDraws,10)
+    requestAnimationFrame(renderDraws)
   }
   // requestAnimationFrame( renderDraws );
 }
