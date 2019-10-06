@@ -28,6 +28,7 @@ var drawCircle = function(x, border){
 var neonBall = function(x,r,g,b,neonBorder) {
   ballObjectCtx.shadowColor = "rgb("+r+","+g+","+b+")";
   ballObjectCtx.shadowBlur = 10;
+
   ballObjectCtx.strokeStyle= "rgba("+r+","+g+","+b+",0.2)";
   ballObjectCtx.lineWidth=7.5;
   drawCircle(x,neonBorder);
@@ -38,10 +39,10 @@ var neonBall = function(x,r,g,b,neonBorder) {
   ballObjectCtx.lineWidth=4.5;
   drawCircle(x,neonBorder);
   ballObjectCtx.strokeStyle= "rgba("+r+","+g+","+b+",0.2)";
-  ballObjectCtx.lineWidth=3;
+  ballObjectCtx.lineWidth=1.5;
   drawCircle(x,neonBorder);
   ballObjectCtx.strokeStyle= '#fff';
-  ballObjectCtx.lineWidth=1.5;
+  ballObjectCtx.lineWidth=3;
   drawCircle(x,neonBorder);
 }
 

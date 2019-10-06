@@ -1,11 +1,11 @@
 var canvas = document.getElementById("breakoutCanvas"),
 ctx = canvas.getContext("2d"),
 
-ballRadius = 10,
+ballRadius = 8,
 x = canvas.width/2,
 y = canvas.height-150,
-dx = 2,
-dy = 2,
+dx = 4,
+dy = 4,
 neonGlowBuffer = 8, //pixels to allow for neon glow around object
 defaultRGB = [13,213,252],
 ballRGB = [10,210,245],
@@ -19,8 +19,8 @@ paddleY = (canvas.height-paddleHeight) - paddleFloat
 rightPressed = false,
 leftPressed = false,
 downPressed = false,
-brickRowCount = 5,
-brickColumnCount = 3,
+brickRowCount = 6,
+brickColumnCount = 4,
 brickWidth = 34,
 brickHeight = 10
 brickPadding = 20,

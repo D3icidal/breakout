@@ -23,6 +23,8 @@ var drawRect = function(x, y, w, h, border){
   neonRectCtx.lineTo(x, y+border);
   neonRectCtx.quadraticCurveTo(x, y+border, x+border, y);
 
+  neonRectCtx.closePath();
+
   neonRectCtx.stroke();
 }
 
@@ -33,12 +35,12 @@ var neonRect = function(x,y,w,h,r,g,b) {
   for (i = 7.5; i > 1.5; i -= 1.5){
     neonRectCtx.strokeStyle= "rgba("+r+","+g+","+b+",0.2)";
     neonRectCtx.lineWidth=i;
-    drawRect(x,y,w,h,1.5);
+    drawRect(x,y,w,h,2);
   }
 
   neonRectCtx.strokeStyle= '#fff';
-  neonRectCtx.lineWidth=1.5;
-  drawRect(x,y,w,h,1.5);
+  neonRectCtx.lineWidth=3;
+  drawRect(x,y,w,h,3);
 
   return neonRectCanvas
 }
