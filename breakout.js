@@ -38,6 +38,7 @@ canvas.offscreenCanvas = document.createElement('canvas');
 offscreenCtx = canvas.offscreenCanvas.getContext('2d');
 canvas.offscreenCanvas.width = canvas.width;
 canvas.offscreenCanvas.height = canvas.height;
+canvas.globalCompositeOperation = "lighter";
 
 
 //
@@ -174,15 +175,28 @@ function drawPaddle() {
   // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
+ballObjectCtx.shadowColor = "rgb("+r+","+g+","+b+")";
+ballObjectCtx.shadowBlur = 10;
+
+ballObjectCtx.strokeStyle= "rgba("+r+","+g+","+b+",0.2)";
+ballObjectCtx.lineWidth=7.5;
 function drawScore() {
   ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
+  // ctx.lineWidth=3.5;
+  ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
+  ctx.strokeText("Score: "+score, 8, 20);
   ctx.fillText("Score: "+score, 8, 20);
 }
 
 function drawLives() {
   ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
+  // ctx.lineWidth=3.5;
+  ctx.shadowBlur = 10;
+  ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
+  ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
+  ctx.strokeText("Lives: "+lives, canvas.width-65, 20);
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
@@ -329,6 +343,8 @@ function randomRGB(){
     [195, 150, 242],
     [245, 200, 66],
     [150, 245, 66]]
+  // var neonRGBOptions = [
+  //   [13,213,252]]
   return neonRGBOptions[Math.floor(Math.random() * neonRGBOptions.length)]
 }
 
