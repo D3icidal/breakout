@@ -10,7 +10,7 @@ function renderDraws() {
   // rainbowRender(ballPos[0], ballPos[1])
   // requestAnimationFrame( renderDraws );
   // step();
-  setTimeout(renderDraws,200)
+  setTimeout(renderDraws,10)
 }
 
 

@@ -78,7 +78,7 @@ var brick = {
   status: 1,
   x: 0,
   y: 0,
-  fillstyle: "#0095DD",
+  // fillstyle: "#0095DD",
 };
 
 function createBricks() {
@@ -115,7 +115,7 @@ function drawBricks() {
 }
 
 //
-//  BRICK COLLISION
+//  BRICK COLLISION DETECTION
 //
 function brickCollisionDetection() {
   for(var c=0; c<brickColumnCount; c++) {
@@ -123,26 +123,27 @@ function brickCollisionDetection() {
       var b = bricks[c][r];
       if(b.status == 1) {
         var brickCollision = circleRectCollisionDetection(x, y, dx, dy, b.x, b.y, brickWidth, brickHeight);
-
-        switch(brickCollision) {
-          case "horizontally":
-            dy = -dy
-            console.log ("horrizontal brick collision")
-            break;
-
-          case "vertically":
-          console.log ("vertical brick collision")
-            dy = -dy
-            break;
-
-          default:
-            return true;
-          // dy = -dy;
-          // score++;
-          // if(score == brickRowCount*brickColumnCount) {
-          //   // alert("YOU WIN, CONGRATS!");
-          //   document.location.reload();
-          // }
+        if (brickCollision) {
+          b.status = 0;
+          switch(brickCollision) {
+            case "horizontally":
+              dy = -dy
+              dx = -dx
+              console.log ("horrizontal brick collision")
+              break;
+            case "vertically":
+              console.log ("vertical brick collision")
+              dy = -dy
+              break;
+            default:
+              return true;
+              dy = -dy;
+              score++;
+              if(score == brickRowCount*brickColumnCount) {
+                // alert("YOU WIN, CONGRATS!");
+                document.location.reload();
+              }
+          }
         }
       }
     }
@@ -175,8 +176,9 @@ function drawLives() {
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
-
+//
 // DETECTION COLLISION CIRCLE WITH RECT UTILITY
+//
 function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
   // DISTANCE BETWEEN CENTER OF CIRCLE AND CENTER OF RECT ALONG X/Y
   var distX = Math.abs(cX - rX - (rW / 2));
@@ -214,14 +216,15 @@ function paddleCollisionDetection(circle, rect){
     case "horizontally":
     console.log("ball x/y: " + circle[0] + "/" + circle[1])
     console.log("rect x/y: " + rect[0] + "/" + rect[1])
-      y = y - 2
+      y = y - 6
+      x = (x < rect[0] + 6 ? x - 6 : x + 6)
       dy = -dy
       dx = -dx
       // console.log ("horrizontal paddle collision!")
       break;
     case "vertically":
     // console.log ("vertical paddle collision")
-      y = y - 2
+      y = y - 4
       dy = -dy
       break;
     default:
