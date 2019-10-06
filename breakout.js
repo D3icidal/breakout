@@ -4,11 +4,11 @@ ctx = canvas.getContext("2d"),
 
 ballRadius = 10,
 x = canvas.width/2,
-y = canvas.height-75,
+y = canvas.height-50,
 dx = 2,
 dy = 2,
 neonGlowBuffer = 7.5, //pixels to allow for neon glow around object
-paddleHeight = 20,
+paddleHeight = 10,
 paddleWidth = 100,
 paddleFloat = 15, //pixels to elevate paddle for costmetic effect
 paddleX = (canvas.width/2) - (paddleWidth/2),
@@ -68,27 +68,7 @@ function mouseMoveHandler(e) {
   }
 }
 
-//
-//  COLLISION DETECTION
-//
-function brickCollisionDetection() {
-  for(var c=0; c<brickColumnCount; c++) {
-    for(var r=0; r<brickRowCount; r++) {
-      var b = bricks[c][r];
-      if(b.status == 1) {
-        if(x+ballRadius > b.x && x - ballRadius < b.x+brickWidth && y + ballRadius > b.y && y - ballRadius< b.y+brickHeight) {
-          dy = -dy;
-          b.status = 0;
-          score++;
-          if(score == brickRowCount*brickColumnCount) {
-            // alert("YOU WIN, CONGRATS!");
-            document.location.reload();
-          }
-        }
-      }
-    }
-  }
-}
+
 
 
 //
@@ -134,6 +114,41 @@ function drawBricks() {
   // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
 
+//
+//  BRICK COLLISION
+//
+function brickCollisionDetection() {
+  for(var c=0; c<brickColumnCount; c++) {
+    for(var r=0; r<brickRowCount; r++) {
+      var b = bricks[c][r];
+      if(b.status == 1) {
+        var brickCollision = circleRectCollisionDetection(x, y, dx, dy, b.x, b.y, brickWidth, brickHeight);
+
+        switch(brickCollision) {
+          case "horizontally":
+            dy = -dy
+            console.log ("horrizontal brick collision")
+            break;
+
+          case "vertically":
+          console.log ("vertical brick collision")
+            dy = -dy
+            break;
+
+          default:
+            return true;
+          // dy = -dy;
+          // score++;
+          // if(score == brickRowCount*brickColumnCount) {
+          //   // alert("YOU WIN, CONGRATS!");
+          //   document.location.reload();
+          // }
+        }
+      }
+    }
+  }
+}
+
 
 
 
@@ -144,11 +159,6 @@ function drawBall(ballX, ballY) {
 }
 
 function drawPaddle() {
-  // ctx.beginPath();
-  // ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-  // ctx.fillStyle = "#0095DD";
-  // ctx.fill();
-  // ctx.closePath();
   offscreenCtx.drawImage(drawNeonRect(0,0,paddleWidth,paddleHeight,13,213,252),paddleX-neonGlowBuffer,paddleY)
   // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
 }
@@ -165,43 +175,68 @@ function drawLives() {
   ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 }
 
-// function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
-//   var distX = Math.abs(cX - rX + (rW / 2));
-//   var distY = Math.abs(cY - rY + (rH / 2));
-//
-// }
 
-function paddleCollisionDetection(circle, rect){
+// DETECTION COLLISION CIRCLE WITH RECT UTILITY
+function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
   // DISTANCE BETWEEN CENTER OF CIRCLE AND CENTER OF RECT ALONG X/Y
-  var distX = Math.abs(circle[0] - rect[0] - (rect[2] / 2));
-  var distY = Math.abs(circle[1] - rect[1] - (rect[3] / 2));
+  var distX = Math.abs(cX - rX - (rW / 2));
+  var distY = Math.abs(cY - rY - (rH / 2));
 
-  //Colliding
-  if ((distX <= (rect[2] / 2)) && (distY <= (rect[3] / 2))) {
-      console.log("!Colliding!" + "  distX:" + distX + "  distY:" + distY)
-      console.log("Circle: " + circle)
-      console.log("Rect: " + rect)
-
-      dy = -dy + 5; //Change direction
-      return true;
+  //Colliding?
+  if ((distX <= (rW / 2)) && (distY <= (rH / 2))) {
+    console.log("Collision ball-rect distance = [" + "distX:" + distX + "  distY:" + distY + "]")
+    //determine if rect was hit from side or from top/bot
+    return ( distX >= ((rW / 2) - Math.round( rW * 0.1))  ? "horizontally" : "vertically")
   }
 
   //Not Colliding
-  if (distX > (rect[2] / 2 + ballRadius)) {
-      return false;
-      dx = -dx;
+  if (distX > (rW / 2 + ballRadius)) {
+    // dx = -dx;
+    return false;
   }
-  if (distY > (rect[3] / 2 + ballRadius)) {
-      return false;
-      dy = -dy;
+  if (distY > (rH / 2 + ballRadius)) {
+    // dy = -dy;
+    return false;
   }
 
-  var dx = distX - rect[2] / 2;
-  var dy = distY - rect[3] / 2;
-  // console.log((dx * dx + dy * dy <= (ballRadius * ballRadius)))
-  return (dx * dx + dy * dy <= (ballRadius * ballRadius));
+  //corner of rect detection
+  var dx = distX - rW / 2;
+  var dy = distY - rH / 2;
+  return (dx * dx + dy * dy <= (ballRadius * ballRadius) ? "horizontally" : false);
+
 }
 
+
+function paddleCollisionDetection(circle, rect){
+  var paddleCollision = circleRectCollisionDetection(circle[0], circle[1], circle[2], circle[3], rect[0], rect[1], rect[2], rect[3]);
+
+  switch(paddleCollision) {
+    case "horizontally":
+    console.log("ball x/y: " + circle[0] + "/" + circle[1])
+    console.log("rect x/y: " + rect[0] + "/" + rect[1])
+      y = y - 2
+      dy = -dy
+      dx = -dx
+      // console.log ("horrizontal paddle collision!")
+      break;
+    case "vertically":
+    // console.log ("vertical paddle collision")
+      y = y - 2
+      dy = -dy
+      break;
+    default:
+      // console.log( "paddleCollisionDetection default switch")
+  }
+}
+
+
+
+
+//
+//
+//    RENDERING
+//
+//
 function draw() {
   offscreenCtx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -212,20 +247,38 @@ function draw() {
   drawBall(x,y);
   ctx.drawImage(canvas.offscreenCanvas , 0, 0);
   // drawNeonBall();
-  brickCollisionDetection();
-  paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight]);
+  var brickCollisionType = brickCollisionDetection();
+  // if (brickCollisionType) {
+  //   if (brickCollisionType == "horizontally") {
+  //     dx = -dx;
+  //   } else if (brickCollisionType == "vertically") {
+  //     dy = -dy;
+  //   } else {
+  //     console.log("unknown brickCollisionType. Not H or V")
+  //   }
+    // score++;
+    // if(score == brickRowCount*brickColumnCount) {
+    //   // alert("YOU WIN, CONGRATS!");
+    //   document.location.reload();
+    // }
+  // }
+  paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight])
+  // if (paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight])) {
+  //   dy = -dy;
+  // }
 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
   if(y + dy < ballRadius) {
-    // dy = -dy;
+    dy = -dy;
   }
   else if(y + dy > paddleY) {
     if(x > paddleX && x < paddleX + paddleWidth) {
       // dy = -dy;
     }
     else if(y + dy > canvas.height - ballRadius ) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       lives--;
       if(!lives) {
         // alert("GAME OVER");
