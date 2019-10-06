@@ -46,8 +46,8 @@ var neonBall = function(x,r,g,b,neonBorder) {
 }
 
 
-function createNeonBall(){
-  neonBall(ballObjectCanvas.width/2,13,213,252,1.5);
+function createNeonBall(r,g,b){
+  neonBall(ballObjectCanvas.width/2,r,g,b,1.5);
 }
 
 function drawNeonBall(x,y){

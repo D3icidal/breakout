@@ -3,6 +3,10 @@ canvas {
   /* background: black; */
 }
 
+body {
+  background: black;
+}
+
 #gameContainer {
   padding: 5px;
   outline-width: 2px;
