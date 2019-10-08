@@ -4,8 +4,8 @@ ctx = canvas.getContext("2d"),
 ballRadius = 8,
 x = canvas.width/2,
 y = canvas.height-150,
-dx = 4,
-dy = 4,
+dx = 6,
+dy = 6,
 neonGlowBuffer = 8, //pixels to allow for neon glow around object
 defaultRGB = [13,213,252],
 ballRGB = [10,210,245],
@@ -151,8 +151,8 @@ function brickCollisionDetection() {
               dy = -dy;
               score++;
               if(score == brickRowCount*brickColumnCount) {
-                // alert("YOU WIN, CONGRATS!");
-                document.location.reload();
+                alert("YOU WIN, CONGRATS!");
+                triggerModal();
               }
           }
         }
@@ -301,7 +301,8 @@ function draw() {
       lives--;
       if(!lives) {
         // alert("GAME OVER");
-        document.location.reload();
+        triggerModal()
+        // document.location.reload();
       }
       else {
         x = canvas.width/2;

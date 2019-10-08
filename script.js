@@ -26,3 +26,33 @@ createNeonBall(ballRGB[0], ballRGB[1], ballRGB[2]);
 //start the game loop
 //
 renderDraws();
+
+
+var modal = document.querySelector(".modal");
+var trigger = document.querySelector(".trigger");
+var closeButton = document.querySelector(".close-button");
+
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        triggerModal();
+    }
+}
+
+function triggerModal(Msg){
+
+  toggleModal();
+}
+
+function close(){
+  reloadGame();
+}
+
+function reloadGame(){
+  document.location.reload();
+}
+// closeButton.addEventListener("click", close());
+window.addEventListener("click", windowOnClick);
