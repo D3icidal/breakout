@@ -8,9 +8,9 @@ function renderDraws() {
   // renderNeonRect();
   // rainbowRender(ballPos[0], ballPos[1])
   // step();
-  if( downPressed ){
-    setTimeout(renderDraws,200)
-  }else {
+  if(downPressed || lives <= 0){
+    setTimeout(renderDraws,100)
+  }else{
     requestAnimationFrame(renderDraws)
   }
   // requestAnimationFrame( renderDraws );
@@ -22,4 +22,5 @@ function renderDraws() {
 //
 //start the game loop
 //
+// draw();
 renderDraws();

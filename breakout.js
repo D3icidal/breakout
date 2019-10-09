@@ -4,8 +4,8 @@ ctx = canvas.getContext("2d"),
 ballRadius = 8,
 x = canvas.width/2,
 y = canvas.height-150,
-dx = 6,
-dy = 6,
+dx = 4,
+dy = 4,
 neonGlowBuffer = 8, //pixels to allow for neon glow around object
 defaultRGB = [13,213,252],
 ballRGB = [10,210,245],
@@ -175,8 +175,13 @@ function drawLives() {
   ctx.shadowBlur = 10;
   ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
-  ctx.strokeText("Lives: "+lives, canvas.width-65, 20);
-  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  if (lives <= 0) {
+    ctx.strokeText("Lives: (✖╭╮✖) ", canvas.width-65, 20);
+    ctx.fillText("Lives: (✖╭╮✖) ", canvas.width-65, 20);
+  } else{
+    ctx.strokeText("Lives: "+lives, canvas.width-65, 20);
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  }
 }
 
 
@@ -291,8 +296,8 @@ function draw() {
       else {
         x = canvas.width/2;
         y = canvas.height-30;
-        dx = 3;
-        dy = -3;
+        // dx = 3;
+        // dy = -3;
         paddleX = (canvas.width-paddleWidth)/2;
       }
     }
@@ -308,7 +313,7 @@ function draw() {
   x += dx;
   y += dy;
 
-  return[Math.floor(x),Math.floor(y)]
+  // return[Math.floor(x),Math.floor(y)]
   // requestAnimationFrame(step);
 }
 
