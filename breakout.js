@@ -25,7 +25,7 @@ brickWidth = 34,
 brickHeight = 10
 brickPadding = 20,
 brickOffsetTop = 30,
-brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2)
+brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2) + brickPadding
 score = 0,
 lives = 3;
 
@@ -165,8 +165,8 @@ function drawScore() {
   ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   ctx.shadowBlur = 10;
   ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
-  ctx.strokeText("Score: "+score, 8, 20);
-  ctx.fillText("Score: "+score, 8, 20);
+  ctx.strokeText("Score: "+score, 15, 20);
+  ctx.fillText("Score: "+score, 15, 20);
 }
 
 function drawLives() {
@@ -176,11 +176,11 @@ function drawLives() {
   ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   if (lives <= 0) {
-    ctx.strokeText("Lives: (✖╭╮✖) ", canvas.width-65, 20);
-    ctx.fillText("Lives: (✖╭╮✖) ", canvas.width-65, 20);
+    ctx.strokeText("Lives:(✖╭╮✖) ", canvas.width-110, 20);
+    ctx.fillText("Lives:(✖╭╮✖) ", canvas.width-110, 20);
   } else{
-    ctx.strokeText("Lives: "+lives, canvas.width-65, 20);
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+    ctx.strokeText("Lives: "+lives, canvas.width-75, 20);
+    ctx.fillText("Lives: "+lives, canvas.width-75, 20);
   }
 }
 
