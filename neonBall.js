@@ -11,7 +11,7 @@ ballFieldCanvas.height = document.getElementById("breakoutCanvas").height
 var ballFieldCtx = ballFieldCanvas.getContext('2d');
 
 // ballFieldCtx.lineJoin = "round";
-ballFieldCtx.globalCompositeOperation = "lighter";
+ballFieldCtx.globalCompositeOperation = "lighter"; //lighter: Where both shapes overlap the color is determined by adding color values.
 
 
 var ballObjectCanvas =
@@ -47,7 +47,6 @@ var neonBall = function(x,r,g,b,neonBorder) {
   ballObjectCtx.strokeStyle= '#fff';
   ballObjectCtx.lineWidth=3;
   drawCircle(x,neonBorder);
-  
 }
 
 
@@ -57,22 +56,6 @@ function createNeonBall(r,g,b){
 
 function drawNeonBall(x,y){
   ballFieldCtx.clearRect(0, 0, ballFieldCanvas.width, ballFieldCanvas.height);
-  // [[ballObjectCanvas,x,y]].concat(prevBalls)
-  // if (prevBalls.length > trailLimit){
-  //   prevBalls.pop()
-  // }
-  // prevBalls.forEach(function (ball, index) {
-	//    if (index == 0) {
-  //      // ballObjectCtx.save();
-  //      ballFieldCtx.drawImage(ballObjectCanvas, ball[0] - (ballObjectCanvas.width/2), ball[1] - (ballObjectCanvas.height/2));
-  //    } else {
-  //      ballObjectCanvas.scale(0.8,0.8)
-  //      ballFieldCtx.drawImage(ballObjectCanvas, ball[0] - (ballObjectCanvas.width/2), ball[1] - (ballObjectCanvas.height/2));
-  //    }
-  //  });
-  //  // ballObjectCtx.restore();
-
   ballFieldCtx.drawImage(ballObjectCanvas, x - (ballObjectCanvas.width/2), y - (ballObjectCanvas.height/2));
   return ballFieldCanvas;
-  // breakoutCtx.drawImage(ballFieldCanvas, 180, 180 )
 }

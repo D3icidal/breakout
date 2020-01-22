@@ -9,10 +9,10 @@ body {
 
 #gameContainer {
   padding: 5px;
-  outline-width: 2px;
+  /* outline-width: 2px; */
   position: relative;
-  outline: green;
-  outline-style: double;
+  /* outline: green; */
+  /* outline-style: double; */
 }
 
 #breakoutCanvas{
@@ -31,19 +31,77 @@ body {
   z-index: 0;
   margin: 3px;
   /* position: relative; */
-  outline-width: 2px;
-  outline: gray;
-  outline-style: dashed;
+  /* outline-width: 2px; */
+  /* outline: gray; */
+  /* outline-style: dashed; */
 }
 
 #rainbowCanvas{
   /* z-index: 0; */
   z-index: 1;
-  margin: 4px;
+  /* margin: 4px; */
   /* position: relative; */
-  outline-width: 2px;
-  outline: orange;
-  outline-style: dashed;
+  /* outline-width: 2px; */
+  /* outline: orange; */
+  /* outline-style: dashed; */
+}
+
+#modal-text {
+  text-align: center;
+  align-items: center;
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+
+.modal {
+    z-index: 5;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0.1;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.5s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    border-radius: 0.5rem;
+}
+
+
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+.close-button:hover {
+    background-color: darkgray;
+}
+.show-modal {
+    opacity: .8;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
 

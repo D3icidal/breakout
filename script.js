@@ -8,21 +8,19 @@ function renderDraws() {
   // renderNeonRect();
   // rainbowRender(ballPos[0], ballPos[1])
   // step();
-  if( downPressed ){
-    setTimeout(renderDraws,200)
-  }else {
+  if(downPressed || lives <= 0){
+    setTimeout(renderDraws,100)
+  }else{
     requestAnimationFrame(renderDraws)
   }
   // requestAnimationFrame( renderDraws );
 }
 
 
-randomize_Parameters()
-createBricks()
 
-createNeonBall(ballRGB[0], ballRGB[1], ballRGB[2]);
 
 //
 //start the game loop
 //
+// draw();
 renderDraws();
