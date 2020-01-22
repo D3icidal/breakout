@@ -19,8 +19,10 @@ paddleY = (canvas.height-paddleHeight) - paddleFloat
 rightPressed = false,
 leftPressed = false,
 downPressed = false,
-brickRowCount = 6,
-brickColumnCount = 4,
+// brickRowCount = 6,
+// brickColumnCount = 4,
+brickRowCount = 1,
+brickColumnCount = 1,
 brickWidth = 34,
 brickHeight = 10
 brickPadding = 20,
@@ -121,8 +123,8 @@ function brickCollisionDetection() {
           if (brickCollision == "horizontally") { dx = -dx }
           if (brickCollision == "vertically") {dy = -dy}
           b.status = 0;
-          addscore(1);
           drawBricks();
+          addscore(1);
         }
       }
     }
@@ -173,14 +175,20 @@ function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
   var distX = Math.abs(cX - rX - (rW / 2));
   var distY = Math.abs(cY - rY - (rH / 2));
 
+  //corner of rect detection
+  var dx = (distX - rW / 2);
+  var dy = (distY - rH / 2);
+  if (dx * dx + dy * dy <= (ballRadius * ballRadius)) {
+    console.log("corner hit!");
+    return "horizontally"
+  }
+
   //Colliding?
   if ((distX - neonGlowBuffer < (rW / 2)) && (distY - neonGlowBuffer< (rH / 2))) {
     console.log("Collision ball-rect distance = [" + "distX:" + distX + "  distY:" + distY + "]")
     //determine if rect was hit from side or from top/bot
     return ( distX > ((rW / 2) - Math.round( (rW / 2) * 0.1))  ? "horizontally" : "vertically")
   }
-
-
 
   //Not Colliding
   if (distX > (rW / 2 + ballRadius)) {
@@ -191,17 +199,6 @@ function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
     // dy = -dy;
     return false;
   }
-
-  //corner of rect detection
-  var dx = (distX - rW / 2);
-  var dy = (distY - rH / 2);
-  if (dx * dx + dy * dy <= (ballRadius * ballRadius)) {
-    console.log("corner hit!");
-    return "horizontally"
-  }
-
-
-  // return (dx * dx + dy * dy <= (ballRadius * ballRadius) ? "horizontally" : false);
 
 }
 
@@ -255,30 +252,27 @@ function draw() {
 
   paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight])
 
-  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+  if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
   if(y + dy < ballRadius) {
     dy = -dy;
-  }
-  else if(y + dy > paddleY) {
+  }  else if(y + dy > paddleY) {
     if(x > paddleX && x < paddleX + paddleWidth) {
-      // dy = -dy;
+      dy = -dy;
     }
     else if(y + dy > canvas.height - ballRadius ) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       lives--;
       if(!lives) {
-        // alert("GAME OVER");
         triggerModal()
-        // document.location.reload();
       }
       else {
         x = canvas.width/2;
         y = canvas.height-30;
-        // dx = 3;
-        // dy = -3;
-        paddleX = (canvas.width-paddleWidth)/2;
+        dx = 3;
+        dy = -3;
+        // paddleX = (canvas.width-paddleWidth)/2;
       }
     }
   }
