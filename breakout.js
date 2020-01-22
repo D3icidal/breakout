@@ -19,13 +19,15 @@ paddleY = (canvas.height-paddleHeight) - paddleFloat
 rightPressed = false,
 leftPressed = false,
 downPressed = false,
-brickRowCount = 6,
-brickColumnCount = 4,
+// brickRowCount = 6,
+// brickColumnCount = 4,
+brickRowCount = 1,
+brickColumnCount = 1,
 brickWidth = 34,
 brickHeight = 10
 brickPadding = 20,
 brickOffsetTop = 30,
-brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2)
+brickOffsetLeft = Math.floor((canvas.width - ((brickRowCount * brickWidth) + (brickRowCount * brickPadding))) /2) + brickPadding
 score = 0,
 lives = 3;
 
@@ -80,49 +82,32 @@ function mouseMoveHandler(e) {
 }
 
 
-
-
 //
-//  CREATE BRICKS
+//  BRICK OFFSCREEN CANVAS
 //
-var brick = {
-  status: 1,
-  x: 0,
-  y: 0,
-  // fillstyle: "#0095DD",
-};
+canvas.brickOffScreenCanvas = document.getElementById("breakoutBrickCanvas");
+// brickCTX = brickCanvas.getContext("2d"),
+var brickOffscreenCtx = canvas.brickOffScreenCanvas.getContext("2d");
+canvas.brickOffScreenCanvas.width = canvas.width;
+canvas.brickOffScreenCanvas.height = canvas.height;
+// canvas.globalCompositeOperation = "lighter";
 
-function createBricks() {
 
-  for(var c=0; c<brickColumnCount; c++) {
-    bricks[c] = [];
-    for(var r=0; r<brickRowCount; r++) {
-      b = Object.create( brick )
-      b.x = (r*(brickWidth+brickPadding))+brickOffsetLeft;
-      b.y = (c*(brickHeight+brickPadding))+brickOffsetTop;
-      bricks[c][r] = b
-    }
-  }
-  // console.log(bricks[0][0].fillstyle)
-}
 
 function drawBricks() {
+  // ctx.clearRect(x,y, canvas.width, canvas.height)
+  brickOffscreenCtx.clearRect(0,0, canvas.width, canvas.height)
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
       var b = bricks[c][r];
       if(b.status == 1) {
-        offscreenCtx.drawImage(drawNeonRect(0,0,brickWidth,brickHeight,brickRGB[0], brickRGB[1], brickRGB[2]),b.x-10,b.y-10)
-        // offscreenCtx.beginPath();
-        // offscreenCtx.rect(b.x, b.y, brickWidth, brickHeight);
-        // offscreenCtx.fillStyle = "#0095DD";
-        // offscreenCtx.fill();
-        // offscreenCtx.closePath();
+        brickOffscreenCtx.drawImage(drawNeonRect(0,0,brickWidth,brickHeight,brickRGB[0], brickRGB[1], brickRGB[2]),b.x-10,b.y-10)
       } else {
-        offscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
+        // brickOffscreenCtx.clearRect(b.x, b.y, brickWidth, brickHeight)
       }
     }
   }
-  // ctx.drawImage(canvas.offscreenCanvas , 0, 0);
+  offscreenCtx.drawImage(canvas.brickOffScreenCanvas, 0, 0);
 }
 
 //
@@ -135,35 +120,16 @@ function brickCollisionDetection() {
       if(b.status == 1) {
         var brickCollision = circleRectCollisionDetection(x, y, dx, dy, b.x, b.y, brickWidth, brickHeight);
         if (brickCollision) {
+          if (brickCollision == "horizontally") { dx = -dx }
+          if (brickCollision == "vertically") {dy = -dy}
           b.status = 0;
-          switch(brickCollision) {
-            case "horizontally":
-              // dy = -dy
-              dx = -dx
-              console.log ("horrizontal brick collision")
-              break;
-            case "vertically":
-              console.log ("vertical brick collision")
-              dy = -dy
-              break;
-            default:
-              return true;
-              dy = -dy;
-              score++;
-              if(score == brickRowCount*brickColumnCount) {
-                // alert("YOU WIN, CONGRATS!");
-                document.location.reload();
-              }
-          }
+          drawBricks();
+          addscore(1);
         }
       }
     }
   }
 }
-
-
-
-
 
 function drawBall(ballX, ballY) {
   // drawNeonBall(x,y);
@@ -181,8 +147,8 @@ function drawScore() {
   ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   ctx.shadowBlur = 10;
   ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
-  ctx.strokeText("Score: "+score, 8, 20);
-  ctx.fillText("Score: "+score, 8, 20);
+  ctx.strokeText("Score: "+score, 15, 20);
+  ctx.fillText("Score: "+score, 15, 20);
 }
 
 function drawLives() {
@@ -191,8 +157,13 @@ function drawLives() {
   ctx.shadowBlur = 10;
   ctx.shadowColor = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
   ctx.fillStyle = "rgb("+defaultRGB[0]+","+defaultRGB[1]+","+defaultRGB[2]+")";
-  ctx.strokeText("Lives: "+lives, canvas.width-65, 20);
-  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  if (lives <= 0) {
+    ctx.strokeText("Lives:(✖╭╮✖) ", canvas.width-110, 20);
+    ctx.fillText("Lives:(✖╭╮✖) ", canvas.width-110, 20);
+  } else{
+    ctx.strokeText("Lives: "+lives, canvas.width-75, 20);
+    ctx.fillText("Lives: "+lives, canvas.width-75, 20);
+  }
 }
 
 
@@ -204,14 +175,20 @@ function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
   var distX = Math.abs(cX - rX - (rW / 2));
   var distY = Math.abs(cY - rY - (rH / 2));
 
+  //corner of rect detection
+  var dx = (distX - rW / 2);
+  var dy = (distY - rH / 2);
+  if (dx * dx + dy * dy <= (ballRadius * ballRadius)) {
+    console.log("corner hit!");
+    return "horizontally"
+  }
+
   //Colliding?
   if ((distX - neonGlowBuffer < (rW / 2)) && (distY - neonGlowBuffer< (rH / 2))) {
     console.log("Collision ball-rect distance = [" + "distX:" + distX + "  distY:" + distY + "]")
     //determine if rect was hit from side or from top/bot
     return ( distX > ((rW / 2) - Math.round( (rW / 2) * 0.1))  ? "horizontally" : "vertically")
   }
-
-
 
   //Not Colliding
   if (distX > (rW / 2 + ballRadius)) {
@@ -222,17 +199,6 @@ function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
     // dy = -dy;
     return false;
   }
-
-  //corner of rect detection
-  var dx = (distX - rW / 2);
-  var dy = (distY - rH / 2);
-  if (dx * dx + dy * dy <= (ballRadius * ballRadius)) {
-    console.log("corner hit!");
-    return "horizontally"
-  }
-
-
-  // return (dx * dx + dy * dy <= (ballRadius * ballRadius) ? "horizontally" : false);
 
 }
 
@@ -270,11 +236,11 @@ function paddleCollisionDetection(circle, rect){
 function draw() {
   offscreenCtx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
   drawPaddle();
   drawScore();
   drawLives();
   drawBall(x,y);
+  // drawBricks();
   ctx.drawImage(canvas.offscreenCanvas , 0, 0);
   // drawNeonBall();
   var brickCollisionType = brickCollisionDetection();
@@ -286,29 +252,27 @@ function draw() {
 
   paddleCollisionDetection([x,y,dx,dy],[paddleX, paddleY, paddleWidth, paddleHeight])
 
-  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+  if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   }
   if(y + dy < ballRadius) {
     dy = -dy;
-  }
-  else if(y + dy > paddleY) {
+  }  else if(y + dy > paddleY) {
     if(x > paddleX && x < paddleX + paddleWidth) {
-      // dy = -dy;
+      dy = -dy;
     }
     else if(y + dy > canvas.height - ballRadius ) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       lives--;
       if(!lives) {
-        // alert("GAME OVER");
-        document.location.reload();
+        triggerModal()
       }
       else {
         x = canvas.width/2;
         y = canvas.height-30;
         dx = 3;
         dy = -3;
-        paddleX = (canvas.width-paddleWidth)/2;
+        // paddleX = (canvas.width-paddleWidth)/2;
       }
     }
   }
@@ -323,7 +287,7 @@ function draw() {
   x += dx;
   y += dy;
 
-  return[Math.floor(x),Math.floor(y)]
+  // return[Math.floor(x),Math.floor(y)]
   // requestAnimationFrame(step);
 }
 
@@ -351,7 +315,6 @@ function randomize_Parameters(){
   x = x + (Math.floor(Math.random() * 80) - 40);
   y = y + (Math.floor(Math.random() * 40) - 20);
   // var dxOptions = [2,-2]
-  console.log(Math.floor((Math.random() * 10) % 2));
   dx =  dx * (Math.floor((Math.random() * 10) % 2) == 1 ? 1 : -1)
 }
 
