@@ -1,4 +1,3 @@
-// var modal = document.querySelector(".modal");
 var modal = document.getElementById("announcement-modal")
 var modalText = document.getElementById("modal-text")
 var trigger = document.querySelector(".trigger");

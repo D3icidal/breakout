@@ -6,7 +6,7 @@ x = canvas.width/2,
 y = canvas.height-150,
 dx = 4,
 dy = 4,
-neonGlowBuffer = 8, //pixels to allow for neon glow around object
+neonGlowBuffer = 10, //pixels to allow for neon glow around object
 defaultRGB = [13,213,252],
 ballRGB = [10,210,245],
 paddleRGB = [15,220,245],
@@ -175,18 +175,18 @@ function circleRectCollisionDetection(cX, cY, cDX, cDY, rX, rY, rW, rH){
   var distX = Math.abs(cX - rX - (rW / 2));
   var distY = Math.abs(cY - rY - (rH / 2));
 
-  //corner of rect detection
-  var dx = (distX - rW / 2);
-  var dy = (distY - rH / 2);
-  if (dx * dx + dy * dy <= (ballRadius * ballRadius)) {
-    console.log("corner hit!");
-    return "horizontally"
-  }
+  // //corner of rect detection
+  // var dx = (distX - rW / 2);
+  // var dy = (distY - rH / 2);
+  // if (dx * dx + dy * dy <= (ballRadius * ballRadius) - 1) {
+  //   console.log("corner hit!");
+  //   return "horizontally"
+  // }
 
   //Colliding?
-  if ((distX - neonGlowBuffer < (rW / 2)) && (distY - neonGlowBuffer< (rH / 2))) {
+  if ((distX - neonGlowBuffer < (rW / 2)) && (distY - neonGlowBuffer < (rH / 2))) {
     console.log("Collision ball-rect distance = [" + "distX:" + distX + "  distY:" + distY + "]")
-    //determine if rect was hit from side or from top/bot
+    //determine if rect was hit from side (horizontally) or from top/bot
     return ( distX > ((rW / 2) - Math.round( (rW / 2) * 0.1))  ? "horizontally" : "vertically")
   }
 
