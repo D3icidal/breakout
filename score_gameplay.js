@@ -1,4 +1,4 @@
-var modal = document.querySelector(".modal");
+var modal = document.getElementById("announcement-modal")
 var modalText = document.getElementById("modal-text")
 var trigger = document.querySelector(".trigger");
 var closeButton = document.getElementById("close-button")
@@ -24,6 +24,7 @@ function toggleModal() {
 function windowOnClick(event) {
     if (event.target === modal) {
         triggerModal();
+        reloadGame();
     }
 }
 
