@@ -24,6 +24,7 @@ function toggleModal() {
 function windowOnClick(event) {
     if (event.target === modal) {
         triggerModal();
+        reloadGame();
     }
 }
 
